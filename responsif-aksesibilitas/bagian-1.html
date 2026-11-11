@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <!--
+    BAGIAN 1 — DASAR RESPONSIF
+    1. Meta viewport: tanpa baris ini, ponsel menampilkan halaman seolah
+       layar desktop (±980px) lalu mengecilkannya. Media query jadi tidak berguna.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bagian 1 — Dasar Responsif</title>
+  <style>
+    /* 2. box-sizing: lebar elemen sudah termasuk padding & border */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      /* 3. Satuan relatif: rem mengikuti ukuran huruf bawaan peramban,
+            sehingga ikut membesar bila pengguna memperbesar teks */
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #f9fafb;
+    }
+
+    /* 4. Lebar cair: pakai % / max-width, bukan lebar tetap dalam px */
+    .wadah {
+      width: 90%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+
+    /* 5. Gambar fleksibel: tidak pernah melebihi lebar wadahnya */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .kartu {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 { font-size: 1.75rem; }
+
+    /* 6. Media query: aturan yang hanya berlaku pada ukuran layar tertentu.
+          Pendekatan "mobile-first": gaya dasar untuk layar kecil,
+          lalu ditambah untuk layar yang lebih lebar (min-width). */
+
+    /* Tablet ke atas */
+    @media (min-width: 600px) {
+      h1 { font-size: 2.25rem; }
+      .daftar-kartu {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      .kartu { margin-bottom: 0; }
+    }
+
+    /* Desktop ke atas */
+    @media (min-width: 900px) {
+      .daftar-kartu { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Penanda ukuran layar aktif, hanya untuk keperluan belajar */
+    .penanda { padding: .5rem 1rem; background: #fee2e2; text-align: center; font-weight: bold; }
+    .penanda::after { content: "Layar: PONSEL (< 600px)"; }
+    @media (min-width: 600px) { .penanda { background: #fef3c7; } .penanda::after { content: "Layar: TABLET (600–899px)"; } }
+    @media (min-width: 900px) { .penanda { background: #d1fae5; } .penanda::after { content: "Layar: DESKTOP (≥ 900px)"; } }
+  </style>
+</head>
+<body>
+  <div class="penanda" aria-hidden="true"></div>
+
+  <main class="wadah">
+    <h1>Program Studi</h1>
+    <p>Ubah lebar jendela peramban: kartu tersusun 1 kolom di ponsel, 2 kolom di tablet, dan 3 kolom di desktop.</p>
+
+    <div class="daftar-kartu">
+      <article class="kartu">
+        <img src="https://placehold.co/600x300?text=Informatika" alt="Mahasiswa Informatika di laboratorium komputer">
+        <h2>Teknik Informatika</h2>
+        <p>Pemrograman, basis data, jaringan, dan kecerdasan buatan.</p>
+      </article>
+      <article class="kartu">
+        <img src="https://placehold.co/600x300?text=Sistem+Informasi" alt="Diskusi kelompok mahasiswa Sistem Informasi">
+        <h2>Sistem Informasi</h2>
+        <p>Analisis proses bisnis dan perancangan sistem informasi.</p>
+      </article>
+      <article class="kartu">
+        <img src="https://placehold.co/600x300?text=DKV" alt="Karya desain mahasiswa DKV dipajang di galeri">
+        <h2>Desain Komunikasi Visual</h2>
+        <p>Desain grafis, tipografi, dan antarmuka pengguna.</p>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

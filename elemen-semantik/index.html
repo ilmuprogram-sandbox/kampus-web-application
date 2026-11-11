@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contoh Elemen Semantik HTML5 — Portal Kampus</title>
+  <style>
+    /* CSS minimal, hanya supaya struktur semantiknya terlihat */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.6; color: #1f2937; background: #f3f4f6; }
+    header, nav, main, footer { padding: 1rem 1.5rem; }
+    header { background: #1e3a8a; color: #fff; }
+    header h1 { margin: 0; }
+    nav { background: #1e40af; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
+    nav a { color: #fff; text-decoration: none; }
+    nav a[aria-current="page"] { font-weight: bold; text-decoration: underline; }
+    .tata-letak { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    @media (min-width: 800px) { .tata-letak { grid-template-columns: 3fr 1fr; } }
+    article, aside, section { background: #fff; border-radius: 8px; padding: 1rem 1.25rem; }
+    aside { background: #eef2ff; }
+    figure { margin: 1rem 0; }
+    figure img { max-width: 100%; border-radius: 6px; }
+    figcaption { font-size: .9rem; color: #6b7280; }
+    mark { background: #fde68a; }
+    footer { background: #111827; color: #d1d5db; text-align: center; }
+    footer a { color: #93c5fd; }
+    address { font-style: normal; }
+  </style>
+</head>
+<body>
+
+  <!-- <header>: kepala halaman (logo, judul situs, tagline) -->
+  <header>
+    <h1>Universitas Contoh</h1>
+    <p>Portal Informasi Akademik</p>
+  </header>
+
+  <!-- <nav>: kumpulan tautan navigasi utama -->
+  <nav aria-label="Navigasi utama">
+    <ul>
+      <li><a href="#" aria-current="page">Beranda</a></li>
+      <li><a href="#berita">Berita</a></li>
+      <li><a href="#jadwal">Jadwal Kuliah</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </nav>
+
+  <!-- <main>: isi utama halaman, hanya boleh ada SATU per halaman -->
+  <main>
+    <div class="tata-letak">
+
+      <div>
+        <!-- <section>: kelompok konten bertema, biasanya punya judul -->
+        <section id="berita">
+          <h2>Berita Terbaru</h2>
+
+          <!-- <article>: konten mandiri yang tetap bermakna bila berdiri sendiri -->
+          <article>
+            <!-- <header> juga boleh dipakai di dalam article -->
+            <header style="background:none;color:inherit;padding:0">
+              <h3>Pendaftaran Semester Ganjil Dibuka</h3>
+              <p>
+                Diterbitkan
+                <!-- <time>: tanggal/waktu yang dapat dibaca mesin -->
+                <time datetime="2026-11-11">11 November 2026</time>
+                oleh Bagian Akademik
+              </p>
+            </header>
+
+            <p>
+              Mahasiswa diharapkan melakukan pengisian KRS paling lambat
+              <!-- <mark>: menandai teks yang relevan/disorot -->
+              <mark>tanggal 25 November 2026</mark>.
+              Keterlambatan pengisian <strong>tidak dapat</strong> diproses ulang.
+            </p>
+
+            <!-- <figure> + <figcaption>: gambar/diagram beserta keterangannya -->
+            <figure>
+              <img src="https://placehold.co/800x300?text=Gedung+Rektorat" alt="Foto gedung rektorat Universitas Contoh">
+              <figcaption>Gambar 1. Gedung Rektorat, lokasi layanan akademik.</figcaption>
+            </figure>
+
+            <!-- <details> + <summary>: konten yang dapat dibuka-tutup -->
+            <details>
+              <summary>Syarat pengisian KRS</summary>
+              <ul>
+                <li>Sudah melunasi UKT semester berjalan</li>
+                <li>Sudah berkonsultasi dengan dosen wali</li>
+                <li>IPK memenuhi batas SKS yang diambil</li>
+              </ul>
+            </details>
+
+            <!-- <footer> di dalam article: info penutup artikel -->
+            <footer style="background:none;color:#6b7280;text-align:left;padding:0;margin-top:1rem">
+              <small>Kategori: Akademik · Tag: KRS, Semester Ganjil</small>
+            </footer>
+          </article>
+        </section>
+
+        <section id="jadwal">
+          <h2>Jadwal Kuliah Hari Ini</h2>
+          <table>
+            <caption>Kelas Teknik Informatika — Semester 3</caption>
+            <thead>
+              <tr><th scope="col">Jam</th><th scope="col">Mata Kuliah</th><th scope="col">Ruang</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><time>08:00</time></td><td>Pemrograman Web</td><td>Lab 2</td></tr>
+              <tr><td><time>10:00</time></td><td>Basis Data</td><td>R. 301</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <!-- <aside>: konten pendukung yang terkait tidak langsung (sidebar) -->
+      <aside aria-label="Informasi tambahan">
+        <h2>Pengumuman</h2>
+        <ul>
+          <li>Libur nasional <time datetime="2026-12-25">25 Des</time></li>
+          <li>UAS dimulai <time datetime="2027-01-05">5 Jan</time></li>
+        </ul>
+        <h2>Tautan Cepat</h2>
+        <ul>
+          <li><a href="#">SIAKAD</a></li>
+          <li><a href="#">E-Learning</a></li>
+          <li><a href="#">Perpustakaan</a></li>
+        </ul>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- <footer>: kaki halaman (hak cipta, kontak, tautan sekunder) -->
+  <footer id="kontak">
+    <!-- <address>: informasi kontak pemilik halaman -->
+    <address>
+      Universitas Contoh · Jl. Pendidikan No. 1, Jakarta<br>
+      Surel: <a href="mailto:info@kampus-contoh.ac.id">info@kampus-contoh.ac.id</a>
+    </address>
+    <p><small>&copy; 2026 Universitas Contoh. Hak cipta dilindungi.</small></p>
+  </footer>
+
+</body>
+</html>

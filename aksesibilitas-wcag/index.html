@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aksesibilitas Dasar (WCAG 2.2) — Empat Prinsip POUR</title>
+  <style>
+    :root {
+      --utama: #1e3a8a;
+      --teks: #1f2937;
+      --redup: #4b5563;
+      --latar: #f9fafb;
+      --kartu: #ffffff;
+      --buruk: #b91c1c;
+      --buruk-latar: #fef2f2;
+      --baik: #047857;
+      --baik-latar: #ecfdf5;
+      --fokus: #f59e0b;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.6; color: var(--teks); background: var(--latar); }
+    :focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+
+    .lewati { position: absolute; left: -9999px; top: 0; background: var(--utama); color: #fff; padding: .75rem 1rem; z-index: 10; }
+    .lewati:focus { left: 1rem; top: 1rem; }
+
+    header { background: var(--utama); color: #fff; padding: 2rem 0; }
+    .wadah { width: min(100% - 2rem, 980px); margin-inline: auto; }
+    header h1 { margin: 0 0 .5rem; font-size: clamp(1.6rem, 1rem + 3vw, 2.5rem); line-height: 1.2; }
+    header p { margin: 0; color: #dbeafe; }
+
+    /* Daftar isi POUR */
+    .pour { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: .75rem; }
+    .pour a { display: block; background: rgba(255,255,255,.12); color: #fff; text-decoration: none; padding: .75rem 1rem; border-radius: 8px; min-height: 44px; }
+    .pour a:hover { background: rgba(255,255,255,.22); }
+    .pour b { font-size: 1.4rem; margin-right: .25rem; }
+
+    main { padding-block: 1.5rem 3rem; }
+    .prinsip { background: var(--kartu); border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem 1.5rem; margin-top: 1.5rem; }
+    .prinsip h2 { margin-top: 0; }
+    .pertanyaan { font-size: 1.15rem; font-weight: 600; color: var(--utama); border-left: 4px solid var(--utama); padding-left: .75rem; }
+    .kriteria { font-size: .9rem; color: var(--redup); }
+
+    /* Perbandingan ✘ / ✔ */
+    .banding { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-top: 1rem; }
+    @media (min-width: 720px) { .banding { grid-template-columns: 1fr 1fr; } }
+    .contoh { border-radius: 8px; padding: 1rem; }
+    .contoh h3 { margin: 0 0 .5rem; font-size: 1rem; }
+    .contoh--buruk { background: var(--buruk-latar); border: 1px solid #fecaca; }
+    .contoh--buruk h3 { color: var(--buruk); }
+    .contoh--baik  { background: var(--baik-latar); border: 1px solid #a7f3d0; }
+    .contoh--baik h3 { color: var(--baik); }
+    .demo { background: #fff; border: 1px dashed #9ca3af; border-radius: 6px; padding: .75rem; margin-bottom: .75rem; }
+    pre { margin: 0; background: #111827; color: #e5e7eb; padding: .75rem; border-radius: 6px; overflow-x: auto; font-size: .85rem; }
+
+    /* Elemen demo */
+    .teks-pudar { color: #c4c8cf; }
+    .status-merah { color: #dc2626; }
+    .status-hijau { color: #16a34a; }
+    .div-tombol { display: inline-block; background: var(--utama); color: #fff; padding: .5rem 1rem; border-radius: 4px; cursor: pointer; }
+    .div-tombol.tanpa-fokus:focus { outline: none; }
+    button.tombol { font: inherit; background: var(--utama); color: #fff; border: 0; padding: .5rem 1rem; border-radius: 4px; cursor: pointer; min-height: 44px; }
+    .tombol-kecil { font-size: .7rem; padding: 0 .2rem; background: #e5e7eb; border: 0; cursor: pointer; }
+    label { display: block; font-weight: 600; margin-top: .5rem; }
+    input { font: inherit; padding: .5rem; width: 100%; border: 1px solid #6b7280; border-radius: 4px; }
+    input[aria-invalid="true"] { border: 2px solid var(--buruk); }
+    .galat { color: var(--buruk); font-weight: 600; margin: .25rem 0 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    /* Daftar periksa */
+    .periksa { list-style: none; padding: 0; }
+    .periksa li { padding: .4rem 0; border-bottom: 1px solid #e5e7eb; }
+    .periksa input { width: auto; margin-right: .5rem; transform: scale(1.2); }
+    .periksa label { display: inline; font-weight: normal; }
+
+    footer { text-align: center; color: var(--redup); font-size: .9rem; padding-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <a class="lewati" href="#konten">Lewati ke konten utama</a>
+
+  <header>
+    <div class="wadah">
+      <h1>Aksesibilitas Dasar (WCAG 2.2)</h1>
+      <p>WCAG 2.2 disusun atas empat prinsip, disingkat <abbr title="Perceivable, Operable, Understandable, Robust">POUR</abbr>.
+         Untuk kelas ini cukup empat pertanyaan praktis di bawah.</p>
+      <nav aria-label="Empat prinsip POUR">
+        <ul class="pour">
+          <li><a href="#p"><b>P</b>erceivable — Dapat dipersepsi</a></li>
+          <li><a href="#o"><b>O</b>perable — Dapat dioperasikan</a></li>
+          <li><a href="#u"><b>U</b>nderstandable — Dapat dipahami</a></li>
+          <li><a href="#r"><b>R</b>obust — Kokoh</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="konten" class="wadah" tabindex="-1">
+
+    <!-- ===================== 1. PERCEIVABLE ===================== -->
+    <section id="p" class="prinsip" aria-labelledby="judul-p">
+      <h2 id="judul-p">1. Perceivable — Dapat dipersepsi</h2>
+      <p class="pertanyaan">Apakah semua informasi bisa ditangkap, termasuk oleh orang yang tidak bisa melihat gambar atau membedakan warna?</p>
+      <p class="kriteria">Kriteria terkait: 1.1.1 Konten non-teks · 1.4.1 Penggunaan warna · 1.4.3 Kontras minimum (4.5:1)</p>
+
+      <div class="banding">
+        <div class="contoh contoh--buruk">
+          <h3>✘ Kurang tepat</h3>
+          <div class="demo">
+            <img src="https://placehold.co/300x80?text=Denah+Gedung+A" alt="gambar" style="max-width:100%">
+            <p class="teks-pudar">Teks abu-abu muda, kontras ±1.7:1</p>
+            <p>Status KRS: <span class="status-merah">●</span> (merah = ditolak)</p>
+          </div>
+<pre><code>&lt;img src="denah.png" alt="gambar"&gt;
+&lt;p style="color:#c4c8cf"&gt;...&lt;/p&gt;
+&lt;span style="color:red"&gt;●&lt;/span&gt;</code></pre>
+        </div>
+
+        <div class="contoh contoh--baik">
+          <h3>✔ Lebih baik</h3>
+          <div class="demo">
+            <img src="https://placehold.co/300x80?text=Denah+Gedung+A" alt="Denah Gedung A: ruang kelas di lantai 2, laboratorium di lantai 3" style="max-width:100%">
+            <p style="color:#374151">Teks abu-abu tua, kontras ±10:1</p>
+            <p>Status KRS: <span class="status-merah">✘ Ditolak</span> — warna + ikon + teks</p>
+          </div>
+<pre><code>&lt;img src="denah.png"
+     alt="Denah Gedung A: kelas lantai 2,
+          laboratorium lantai 3"&gt;
+&lt;span&gt;✘ Ditolak&lt;/span&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 2. OPERABLE ===================== -->
+    <section id="o" class="prinsip" aria-labelledby="judul-o">
+      <h2 id="judul-o">2. Operable — Dapat dioperasikan</h2>
+      <p class="pertanyaan">Bisakah seluruh halaman dipakai hanya dengan keyboard, dan apakah fokusnya selalu terlihat?</p>
+      <p class="kriteria">Kriteria terkait: 2.1.1 Keyboard · 2.4.7 Fokus terlihat · 2.4.11 Fokus tidak tertutup <em>(baru di 2.2)</em> · 2.5.8 Ukuran target minimal 24×24px <em>(baru di 2.2)</em></p>
+
+      <div class="banding">
+        <div class="contoh contoh--buruk">
+          <h3>✘ Kurang tepat</h3>
+          <div class="demo">
+            <div class="div-tombol tanpa-fokus" onclick="alert('Tersimpan')">Simpan (div)</div>
+            <p style="margin:.5rem 0 0">Coba tekan Tab: elemen ini dilewati.</p>
+            <p style="margin:.5rem 0 0">Tombol mungil: <button class="tombol-kecil" type="button">x</button></p>
+          </div>
+<pre><code>&lt;div onclick="simpan()"&gt;Simpan&lt;/div&gt;
+button:focus { outline: none; }</code></pre>
+        </div>
+
+        <div class="contoh contoh--baik">
+          <h3>✔ Lebih baik</h3>
+          <div class="demo">
+            <button class="tombol" type="button" onclick="alert('Tersimpan')">Simpan</button>
+            <p style="margin:.5rem 0 0">Bisa difokus dengan Tab, ditekan dengan Enter/Spasi, dan garis fokus terlihat.</p>
+          </div>
+<pre><code>&lt;button type="button"&gt;Simpan&lt;/button&gt;
+:focus-visible {
+  outline: 3px solid #f59e0b;
+}
+button { min-height: 44px; }</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. UNDERSTANDABLE ===================== -->
+    <section id="u" class="prinsip" aria-labelledby="judul-u">
+      <h2 id="judul-u">3. Understandable — Dapat dipahami</h2>
+      <p class="pertanyaan">Apakah label, petunjuk, dan pesan galatnya jelas, sehingga pengguna tahu apa yang salah dan cara memperbaikinya?</p>
+      <p class="kriteria">Kriteria terkait: 3.1.1 Bahasa halaman · 3.3.1 Identifikasi galat · 3.3.2 Label atau instruksi · 3.3.7 Isian berulang <em>(baru di 2.2)</em></p>
+
+      <div class="banding">
+        <div class="contoh contoh--buruk">
+          <h3>✘ Kurang tepat</h3>
+          <div class="demo">
+            <input type="text" placeholder="NIM" aria-label="NIM (contoh buruk)">
+            <p class="galat">Input tidak valid!</p>
+          </div>
+<pre><code>&lt;input placeholder="NIM"&gt;
+&lt;p&gt;Input tidak valid!&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="contoh contoh--baik">
+          <h3>✔ Lebih baik</h3>
+          <form class="demo" id="form-nim" novalidate>
+            <label for="nim">NIM</label>
+            <input id="nim" type="text" inputmode="numeric" autocomplete="off"
+                   aria-describedby="nim-bantuan nim-galat">
+            <p id="nim-bantuan" class="kriteria" style="margin:.25rem 0 0">10 digit angka, contoh: 2026010001</p>
+            <p id="nim-galat" class="galat" role="alert"></p>
+            <button class="tombol" type="submit" style="margin-top:.5rem">Periksa</button>
+          </form>
+<pre><code>&lt;label for="nim"&gt;NIM&lt;/label&gt;
+&lt;input id="nim"
+  aria-describedby="nim-bantuan nim-galat"
+  aria-invalid="true"&gt;
+&lt;p id="nim-galat" role="alert"&gt;
+  NIM harus 10 digit angka.
+&lt;/p&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. ROBUST ===================== -->
+    <section id="r" class="prinsip" aria-labelledby="judul-r">
+      <h2 id="judul-r">4. Robust — Kokoh</h2>
+      <p class="pertanyaan">Apakah HTML-nya benar dan memakai elemen bawaan, sehingga pembaca layar tahu nama, peran, dan status setiap komponen?</p>
+      <p class="kriteria">Kriteria terkait: 4.1.2 Nama, peran, nilai · 4.1.3 Pesan status</p>
+
+      <div class="banding">
+        <div class="contoh contoh--buruk">
+          <h3>✘ Kurang tepat</h3>
+          <div class="demo">
+            <div style="cursor:pointer" onclick="this.nextElementSibling.hidden = !this.nextElementSibling.hidden">▸ Syarat seminar (klik)</div>
+            <div hidden>Membawa KTM dan laptop.</div>
+          </div>
+<pre><code>&lt;div onclick="buka()"&gt;▸ Syarat&lt;/div&gt;
+&lt;div hidden&gt;...&lt;/div&gt;
+&lt;!-- pembaca layar tidak tahu ini
+     tombol, apalagi terbuka/tertutup --&gt;</code></pre>
+        </div>
+
+        <div class="contoh contoh--baik">
+          <h3>✔ Lebih baik</h3>
+          <div class="demo">
+            <details>
+              <summary>Syarat seminar</summary>
+              <p style="margin:.5rem 0 0">Membawa KTM dan laptop.</p>
+            </details>
+            <button class="tombol" type="button" id="tombol-simpan" style="margin-top:.75rem">Simpan pendaftaran</button>
+            <p id="pesan-status" role="status" aria-live="polite" style="margin:.5rem 0 0"></p>
+          </div>
+<pre><code>&lt;details&gt;
+  &lt;summary&gt;Syarat seminar&lt;/summary&gt;
+  ...
+&lt;/details&gt;
+&lt;p role="status" aria-live="polite"&gt;
+  ✔ Pendaftaran tersimpan
+&lt;/p&gt;</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== RANGKUMAN ===================== -->
+    <section class="prinsip" aria-labelledby="judul-periksa">
+      <h2 id="judul-periksa">Daftar periksa sebelum mengumpulkan tugas</h2>
+      <ul class="periksa">
+        <li><input type="checkbox" id="c1"><label for="c1"><strong>P</strong> — Semua gambar bermakna punya <code>alt</code>; gambar dekoratif <code>alt=""</code>.</label></li>
+        <li><input type="checkbox" id="c2"><label for="c2"><strong>P</strong> — Kontras teks minimal 4.5:1; informasi tidak hanya dibedakan dengan warna.</label></li>
+        <li><input type="checkbox" id="c3"><label for="c3"><strong>O</strong> — Semua fitur bisa dipakai dengan Tab, Enter, Spasi, dan Escape.</label></li>
+        <li><input type="checkbox" id="c4"><label for="c4"><strong>O</strong> — Fokus selalu terlihat dan tidak tertutup header atau pop-up.</label></li>
+        <li><input type="checkbox" id="c5"><label for="c5"><strong>U</strong> — <code>&lt;html lang="id"&gt;</code>, setiap input punya label, dan pesan galat menjelaskan cara memperbaikinya.</label></li>
+        <li><input type="checkbox" id="c6"><label for="c6"><strong>R</strong> — Pakai elemen bawaan (<code>button</code>, <code>a</code>, <code>details</code>) dan lolos validator HTML.</label></li>
+      </ul>
+      <p class="kriteria">Alat bantu: Lighthouse (Chrome DevTools), WAVE, axe DevTools, validator.w3.org, dan VoiceOver (Cmd+F5 di Mac).</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Rujukan: <a href="https://www.w3.org/TR/WCAG22/">W3C — Web Content Accessibility Guidelines (WCAG) 2.2</a></p>
+  </footer>
+
+  <script>
+    // Understandable: validasi NIM dengan pesan galat yang jelas
+    const form = document.getElementById('form-nim');
+    const nim = document.getElementById('nim');
+    const galat = document.getElementById('nim-galat');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const valid = /^\d{10}$/.test(nim.value.trim());
+      nim.setAttribute('aria-invalid', String(!valid));
+      galat.style.color = valid ? '#047857' : '';
+      galat.textContent = valid
+        ? '✔ NIM valid.'
+        : 'NIM harus 10 digit angka. Saat ini terisi ' + nim.value.trim().length + ' karakter.';
+      if (!valid) nim.focus();
+    });
+
+    // Robust: pesan status diumumkan tanpa memindahkan fokus
+    document.getElementById('tombol-simpan').addEventListener('click', () => {
+      document.getElementById('pesan-status').textContent = '✔ Pendaftaran tersimpan.';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bagian 3 — Responsif + Aksesibel Sekaligus</title>
+  <style>
+    /* 1. Variabel warna + mode gelap mengikuti setelan sistem pengguna */
+    :root {
+      --latar: #ffffff;
+      --teks: #111827;
+      --utama: #1e3a8a;
+      --kartu: #f3f4f6;
+      --fokus: #f59e0b;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --latar: #0f172a;
+        --teks: #e5e7eb;
+        --utama: #3b82f6;
+        --kartu: #1e293b;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.6; background: var(--latar); color: var(--teks); }
+    :focus-visible { outline: 3px solid var(--fokus); outline-offset: 2px; }
+
+    /* 2. Navigasi responsif: di ponsel menjadi menu yang dibuka lewat tombol */
+    .kepala { display: flex; justify-content: space-between; align-items: center; padding: .75rem 5%; background: var(--utama); color: #fff; flex-wrap: wrap; }
+    .kepala a { color: #fff; text-decoration: none; }
+    .tombol-menu {
+      background: transparent; color: #fff; border: 2px solid #fff; border-radius: 4px;
+      padding: .4rem .8rem; font: inherit; cursor: pointer;
+      /* 3. Target sentuh minimal 44×44px agar mudah ditekan jari */
+      min-height: 44px; min-width: 44px;
+    }
+    .nav-utama { flex-basis: 100%; }
+    .menu { list-style: none; margin: 0; padding: 0; width: 100%; display: none; }
+    .menu.terbuka { display: block; }
+    .menu a { display: block; padding: .75rem 0; min-height: 44px; }
+
+    @media (min-width: 768px) {
+      .tombol-menu { display: none; }
+      .nav-utama { flex-basis: auto; }
+      .menu { display: flex !important; width: auto; gap: 1.5rem; }
+      .menu a { padding: .5rem 0; }
+    }
+
+    .wadah { width: 90%; max-width: 1000px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+
+    /* 4. Tipografi cair: clamp(min, ideal, maks) — tanpa media query */
+    h1 { font-size: clamp(1.6rem, 4vw + 1rem, 3rem); line-height: 1.2; }
+
+    /* 5. Grid otomatis: kolom bertambah sendiri sesuai ruang yang tersedia */
+    .galeri { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; padding: 0; list-style: none; }
+    .galeri li { background: var(--kartu); border-radius: 8px; padding: 1rem; }
+
+    /* 6. Tabel lebar: dibungkus wadah yang bisa digulir & difokus, bukan merusak tata letak */
+    .wadah-tabel { overflow-x: auto; border: 1px solid #9ca3af; border-radius: 6px; }
+    table { border-collapse: collapse; width: 100%; min-width: 600px; }
+    th, td { padding: .6rem .8rem; border-bottom: 1px solid #9ca3af; text-align: left; }
+    caption { text-align: left; font-weight: 600; padding: .5rem .8rem; }
+
+    /* 7. Animasi dihormati: dimatikan bila pengguna memilih "kurangi gerakan" */
+    .banner { padding: 1rem; border-radius: 8px; background: var(--kartu); animation: denyut 2s ease-in-out infinite; }
+    @keyframes denyut { 50% { transform: scale(1.02); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    /* 8. Wilayah notifikasi */
+    .notifikasi { margin-top: 1rem; min-height: 1.6em; font-weight: 600; }
+    .tombol { margin-top: 1rem; padding: .7rem 1.2rem; font: inherit; background: var(--utama); color: #fff; border: 0; border-radius: 4px; min-height: 44px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header class="kepala">
+    <a href="#"><strong>Universitas Contoh</strong></a>
+
+    <!-- aria-expanded memberi tahu pembaca layar apakah menu sedang terbuka;
+         aria-controls menunjuk elemen yang dikendalikan -->
+    <button class="tombol-menu" type="button" aria-expanded="false" aria-controls="menu-utama">
+      ☰ Menu
+    </button>
+
+    <nav aria-label="Navigasi utama" class="nav-utama">
+      <ul id="menu-utama" class="menu">
+        <li><a href="#">Beranda</a></li>
+        <li><a href="#">Akademik</a></li>
+        <li><a href="#">Penelitian</a></li>
+        <li><a href="#">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wadah">
+    <h1>Fasilitas Kampus</h1>
+
+    <p class="banner">Pendaftaran laboratorium semester ini dibuka sampai 30 November 2026.</p>
+
+    <h2>Daftar fasilitas</h2>
+    <ul class="galeri">
+      <li><h3>Perpustakaan</h3><p>Buka 08.00–20.00, akses jurnal daring.</p></li>
+      <li><h3>Lab Komputer</h3><p>4 ruang, 160 unit PC.</p></li>
+      <li><h3>Ruang Kreatif</h3><p>Studio foto dan rekaman.</p></li>
+      <li><h3>Pusat Karier</h3><p>Konsultasi CV dan lowongan magang.</p></li>
+    </ul>
+
+    <h2>Jadwal pemakaian lab</h2>
+    <!-- role="region" + aria-label + tabindex: wadah gulir dapat dijangkau keyboard -->
+    <div class="wadah-tabel" role="region" aria-label="Jadwal pemakaian lab, dapat digulir ke samping" tabindex="0">
+      <table>
+        <caption>Minggu ke-12</caption>
+        <thead>
+          <tr><th scope="col">Hari</th><th scope="col">Lab 1</th><th scope="col">Lab 2</th><th scope="col">Lab 3</th><th scope="col">Lab 4</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Senin</th><td>Pemrograman Web</td><td>Basis Data</td><td>Jaringan</td><td>Kosong</td></tr>
+          <tr><th scope="row">Selasa</th><td>Algoritma</td><td>Kosong</td><td>Pemrograman Web</td><td>Multimedia</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Notifikasi dinamis</h2>
+    <button class="tombol" type="button" id="tombol-simpan">Simpan pilihan lab</button>
+    <!-- aria-live="polite": perubahan isi dibacakan tanpa memindahkan fokus -->
+    <p class="notifikasi" id="notifikasi" role="status" aria-live="polite"></p>
+  </main>
+
+  <script>
+    // Tombol menu: ganti kelas sekaligus status aria-expanded
+    const tombolMenu = document.querySelector('.tombol-menu');
+    const menu = document.getElementById('menu-utama');
+    tombolMenu.addEventListener('click', () => {
+      const terbuka = tombolMenu.getAttribute('aria-expanded') === 'true';
+      tombolMenu.setAttribute('aria-expanded', String(!terbuka));
+      menu.classList.toggle('terbuka', !terbuka);
+    });
+
+    // Tombol Escape menutup menu dan mengembalikan fokus ke tombolnya
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('terbuka')) {
+        tombolMenu.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('terbuka');
+        tombolMenu.focus();
+      }
+    });
+
+    // Notifikasi diumumkan pembaca layar lewat aria-live
+    document.getElementById('tombol-simpan').addEventListener('click', () => {
+      document.getElementById('notifikasi').textContent = '✔ Pilihan lab berhasil disimpan.';
+    });
+  </script>
+</body>
+</html>

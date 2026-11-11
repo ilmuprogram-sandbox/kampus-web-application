@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materi Pemrograman Web — Daftar Contoh</title>
+  <style>
+    :root {
+      --utama: #1e3a8a;
+      --utama-muda: #dbeafe;
+      --teks: #1f2937;
+      --redup: #4b5563;
+      --latar: #f3f4f6;
+      --kartu: #ffffff;
+      --garis: #e5e7eb;
+      --fokus: #f59e0b;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.6; color: var(--teks); background: var(--latar); }
+    :focus-visible { outline: 3px solid var(--fokus); outline-offset: 3px; }
+    .wadah { width: min(100% - 2rem, 1000px); margin-inline: auto; }
+
+    header { background: var(--utama); color: #fff; padding: 2.5rem 0 2rem; }
+    header h1 { margin: 0 0 .5rem; font-size: clamp(1.7rem, 1rem + 3vw, 2.75rem); line-height: 1.2; }
+    header p { margin: 0; color: var(--utama-muda); max-width: 60ch; }
+
+    main { padding-block: 2rem 3rem; }
+
+    .pertemuan { margin-bottom: 2.5rem; }
+    .pertemuan__kepala { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+    .nomor {
+      flex: none; width: 44px; height: 44px; border-radius: 50%;
+      background: var(--utama); color: #fff; font-weight: 700; font-size: 1.2rem;
+      display: grid; place-items: center;
+    }
+    .pertemuan h2 { margin: 0; font-size: 1.4rem; }
+
+    .grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+
+    /* Seluruh kartu dapat diklik: tautan di judul diperluas lewat ::after */
+    .kartu {
+      position: relative;
+      background: var(--kartu);
+      border: 1px solid var(--garis);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex; flex-direction: column;
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+    }
+    .kartu:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,.08); border-color: var(--utama); }
+    .kartu:focus-within { border-color: var(--utama); }
+    .kartu h3 { margin: 0 0 .5rem; font-size: 1.1rem; }
+    .kartu h3 a { color: var(--utama); text-decoration: none; }
+    .kartu h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 12px; }
+    .kartu p { margin: 0 0 .75rem; color: var(--redup); }
+    .kartu ul { margin: 0 0 1rem; padding-left: 1.2rem; font-size: .92rem; }
+    .berkas { margin-top: auto; font-family: ui-monospace, monospace; font-size: .8rem; color: var(--redup);
+              background: var(--latar); padding: .3rem .6rem; border-radius: 6px; align-self: flex-start; }
+    .label { display: inline-block; font-size: .75rem; font-weight: 600; padding: .1rem .5rem; border-radius: 999px;
+             background: var(--utama-muda); color: var(--utama); margin-bottom: .5rem; }
+
+    .tips { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 1.25rem 1.5rem; }
+    .tips h2 { margin-top: 0; font-size: 1.2rem; }
+    .tips ol { margin: 0; padding-left: 1.2rem; }
+    kbd { background: #fff; border: 1px solid #d1d5db; border-bottom-width: 2px; border-radius: 4px; padding: 0 .35rem; font-size: .85em; }
+
+    footer { text-align: center; color: var(--redup); font-size: .9rem; padding-bottom: 2rem; }
+
+    @media (prefers-reduced-motion: reduce) { .kartu { transition: none; } .kartu:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wadah">
+      <h1>Materi Pemrograman Web</h1>
+      <p>Kumpulan contoh HTML &amp; CSS untuk kelas. Klik salah satu kartu untuk membuka contohnya,
+         lalu tekan tombol <strong>Kembali</strong> di peramban untuk kembali ke halaman ini.</p>
+    </div>
+  </header>
+
+  <main class="wadah">
+
+    <!-- ========== 1 ========== -->
+    <section class="pertemuan" aria-labelledby="m1">
+      <div class="pertemuan__kepala">
+        <span class="nomor" aria-hidden="true">1</span>
+        <h2 id="m1">Elemen Semantik HTML5</h2>
+      </div>
+      <ul class="grid">
+        <li class="kartu">
+          <span class="label">Contoh 1</span>
+          <h3><a href="elemen-semantik/index.html">Portal Informasi Kampus</a></h3>
+          <p>Struktur halaman memakai elemen yang punya makna, bukan sekadar <code>&lt;div&gt;</code>.</p>
+          <ul>
+            <li><code>header</code>, <code>nav</code>, <code>main</code>, <code>footer</code></li>
+            <li><code>section</code>, <code>article</code>, <code>aside</code></li>
+            <li><code>figure</code>, <code>time</code>, <code>mark</code>, <code>details</code></li>
+          </ul>
+          <span class="berkas">elemen-semantik/index.html</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ========== 2 ========== -->
+    <section class="pertemuan" aria-labelledby="m2">
+      <div class="pertemuan__kepala">
+        <span class="nomor" aria-hidden="true">2</span>
+        <h2 id="m2">Responsif dan Aksesibilitas</h2>
+      </div>
+      <ul class="grid">
+        <li class="kartu">
+          <span class="label">Bagian 1</span>
+          <h3><a href="responsif-aksesibilitas/bagian-1.html">Dasar Responsif</a></h3>
+          <p>Halaman menyesuaikan lebar layar: 1, 2, atau 3 kolom.</p>
+          <ul>
+            <li>Meta viewport &amp; <code>box-sizing</code></li>
+            <li>Satuan relatif &amp; gambar fleksibel</li>
+            <li>Media query <em>mobile-first</em></li>
+          </ul>
+          <span class="berkas">responsif-aksesibilitas/bagian-1.html</span>
+        </li>
+        <li class="kartu">
+          <span class="label">Bagian 2</span>
+          <h3><a href="responsif-aksesibilitas/bagian-2.html">Dasar Aksesibilitas</a></h3>
+          <p>Halaman yang dapat dipakai dengan keyboard dan pembaca layar.</p>
+          <ul>
+            <li>Skip link &amp; fokus terlihat</li>
+            <li>Teks <code>alt</code>, kontras, tautan yang jelas</li>
+            <li>Label formulir &amp; <code>aria-describedby</code></li>
+          </ul>
+          <span class="berkas">responsif-aksesibilitas/bagian-2.html</span>
+        </li>
+        <li class="kartu">
+          <span class="label">Bagian 3</span>
+          <h3><a href="responsif-aksesibilitas/bagian-3.html">Responsif + Aksesibel</a></h3>
+          <p>Menggabungkan keduanya dalam satu halaman.</p>
+          <ul>
+            <li>Menu ☰ dengan <code>aria-expanded</code></li>
+            <li>Mode gelap &amp; kurangi gerakan</li>
+            <li>Tabel gulir &amp; notifikasi <code>aria-live</code></li>
+          </ul>
+          <span class="berkas">responsif-aksesibilitas/bagian-3.html</span>
+        </li>
+        <li class="kartu">
+          <span class="label">CSS</span>
+          <h3><a href="css-responsive/index.html">CSS Responsive</a></h3>
+          <p>Teknik tata letak modern dengan CSS di berkas terpisah.</p>
+          <ul>
+            <li>Flexbox &amp; Grid <code>auto-fit</code></li>
+            <li><code>grid-template-areas</code> &amp; <code>clamp()</code></li>
+            <li><code>&lt;picture&gt;</code> &amp; container query</li>
+          </ul>
+          <span class="berkas">css-responsive/index.html + style.css</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ========== 3 ========== -->
+    <section class="pertemuan" aria-labelledby="m3">
+      <div class="pertemuan__kepala">
+        <span class="nomor" aria-hidden="true">3</span>
+        <h2 id="m3">Aksesibilitas Dasar (WCAG 2.2)</h2>
+      </div>
+      <ul class="grid">
+        <li class="kartu">
+          <span class="label">Contoh 3</span>
+          <h3><a href="aksesibilitas-wcag/index.html">Empat Prinsip POUR</a></h3>
+          <p>Perbandingan contoh kurang tepat ✘ dan lebih baik ✔ untuk tiap prinsip.</p>
+          <ul>
+            <li><strong>P</strong>erceivable · <strong>O</strong>perable</li>
+            <li><strong>U</strong>nderstandable · <strong>R</strong>obust</li>
+            <li>Daftar periksa sebelum mengumpulkan tugas</li>
+          </ul>
+          <span class="berkas">aksesibilitas-wcag/index.html</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ========== Tips ========== -->
+    <section class="tips" aria-labelledby="tips">
+      <h2 id="tips">💡 Tips saat praktik di kelas</h2>
+      <ol>
+        <li><strong>Lihat kodenya:</strong> klik kanan → <em>View Page Source</em>, atau tekan <kbd>Cmd</kbd>+<kbd>Opt</kbd>+<kbd>U</kbd> (Mac) / <kbd>Ctrl</kbd>+<kbd>U</kbd> (Windows).</li>
+        <li><strong>Uji responsif:</strong> buka DevTools (<kbd>F12</kbd>), lalu aktifkan mode perangkat dengan <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>.</li>
+        <li><strong>Uji keyboard:</strong> letakkan mouse, lalu jelajahi halaman hanya dengan <kbd>Tab</kbd>, <kbd>Shift</kbd>+<kbd>Tab</kbd>, <kbd>Enter</kbd>, dan <kbd>Esc</kbd>.</li>
+        <li><strong>Uji aksesibilitas otomatis:</strong> DevTools → tab <em>Lighthouse</em> → centang <em>Accessibility</em> → <em>Analyze page load</em>.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <p>Materi Pemrograman Web · 2026</p>
+  </footer>
+</body>
+</html>

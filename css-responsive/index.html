@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Responsive — Halaman Kampus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="kepala">
+    <div class="wadah kepala__isi">
+      <a class="logo" href="#">🎓 Universitas Contoh</a>
+      <nav aria-label="Navigasi utama">
+        <ul class="nav">
+          <li><a href="#">Beranda</a></li>
+          <li><a href="#">Prodi</a></li>
+          <li><a href="#">Berita</a></li>
+          <li><a href="#">Kontak</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero: teks & gambar bertumpuk di ponsel, berdampingan di desktop (Flexbox) -->
+    <section class="hero">
+      <div class="wadah hero__isi">
+        <div class="hero__teks">
+          <h1>Kuliah Fleksibel, Masa Depan Pasti</h1>
+          <p>Penerimaan mahasiswa baru tahun akademik 2027/2028 telah dibuka.</p>
+          <a class="tombol" href="#">Daftar Sekarang</a>
+        </div>
+        <!-- <picture>: sumber gambar berbeda sesuai lebar layar -->
+        <picture class="hero__gambar">
+          <source media="(min-width: 900px)" srcset="https://placehold.co/800x500?text=Desktop+800x500">
+          <source media="(min-width: 600px)" srcset="https://placehold.co/600x400?text=Tablet+600x400">
+          <img src="https://placehold.co/400x300?text=Ponsel+400x300" alt="Mahasiswa berjalan di halaman kampus">
+        </picture>
+      </div>
+    </section>
+
+    <!-- Kartu: CSS Grid auto-fit -->
+    <section class="wadah">
+      <h2>Program Studi</h2>
+      <ul class="grid-kartu">
+        <li class="kartu"><h3>Teknik Informatika</h3><p>Akreditasi Unggul</p></li>
+        <li class="kartu"><h3>Sistem Informasi</h3><p>Akreditasi Baik Sekali</p></li>
+        <li class="kartu"><h3>Desain Komunikasi Visual</h3><p>Akreditasi Baik Sekali</p></li>
+        <li class="kartu"><h3>Manajemen</h3><p>Akreditasi Unggul</p></li>
+      </ul>
+    </section>
+
+    <!-- Tata letak halaman: grid-template-areas berubah per breakpoint -->
+    <section class="wadah tata-letak">
+      <article class="tata-letak__utama">
+        <h2>Berita Utama</h2>
+        <p>Tim mahasiswa Teknik Informatika meraih juara 1 lomba pengembangan aplikasi web tingkat nasional.</p>
+      </article>
+      <aside class="tata-letak__samping">
+        <h2>Agenda</h2>
+        <ul>
+          <li>20 Nov — Seminar Web</li>
+          <li>05 Jan — UAS</li>
+        </ul>
+      </aside>
+      <section class="tata-letak__bawah">
+        <h2>Statistik</h2>
+        <p>8.500 mahasiswa aktif · 320 dosen · 24 laboratorium</p>
+      </section>
+    </section>
+
+    <!-- Container query: kartu menyesuaikan lebar WADAHNYA, bukan lebar layar -->
+    <section class="wadah">
+      <h2>Dosen Pembimbing</h2>
+      <div class="grid-dosen">
+        <div class="wadah-profil">
+          <div class="profil">
+            <img src="https://placehold.co/120x120?text=Foto" alt="Foto Dr. Andi Pratama">
+            <div><h3>Dr. Andi Pratama</h3><p>Rekayasa Perangkat Lunak</p></div>
+          </div>
+        </div>
+        <div class="wadah-profil">
+          <div class="profil">
+            <img src="https://placehold.co/120x120?text=Foto" alt="Foto Siti Rahma, M.Kom.">
+            <div><h3>Siti Rahma, M.Kom.</h3><p>Interaksi Manusia dan Komputer</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="kaki">
+    <div class="wadah">&copy; 2026 Universitas Contoh</div>
+  </footer>
+</body>
+</html>

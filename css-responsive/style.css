@@ -1,0 +1,171 @@
+/* =========================================================
+   CSS RESPONSIVE — pendekatan MOBILE-FIRST
+   Gaya dasar ditulis untuk layar kecil, lalu media query
+   min-width menambahkan aturan untuk layar yang lebih lebar.
+
+   Breakpoint yang dipakai:
+     - 600px  → tablet
+     - 900px  → desktop
+   ========================================================= */
+
+/* ---------- 1. Reset & variabel ---------- */
+:root {
+  --utama: #1e3a8a;
+  --aksen: #f59e0b;
+  --teks: #1f2937;
+  --latar: #f9fafb;
+  --kartu: #ffffff;
+  --jarak: 1rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--teks);
+  background: var(--latar);
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+:focus-visible { outline: 3px solid var(--aksen); outline-offset: 2px; }
+
+/* ---------- 2. Wadah cair ---------- */
+.wadah {
+  width: min(100% - 2rem, 1100px);  /* 1rem gutter kiri-kanan, maks 1100px */
+  margin-inline: auto;
+}
+
+/* ---------- 3. Tipografi cair dengan clamp() ---------- */
+h1 { font-size: clamp(1.75rem, 1rem + 4vw, 3.25rem); line-height: 1.15; margin: 0 0 1rem; }
+h2 { font-size: clamp(1.35rem, 1rem + 1.5vw, 2rem); }
+
+/* ---------- 4. Header & navigasi (Flexbox + flex-wrap) ---------- */
+.kepala { background: var(--utama); color: #fff; }
+.kepala__isi {
+  display: flex;
+  flex-direction: column;       /* ponsel: logo di atas, menu di bawah */
+  gap: .5rem;
+  padding-block: .75rem;
+}
+.logo { color: #fff; font-weight: 700; text-decoration: none; font-size: 1.1rem; }
+.nav { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
+.nav a { color: #fff; text-decoration: none; display: inline-block; padding: .4rem 0; }
+.nav a:hover { color: var(--aksen); }
+
+/* ---------- 5. Hero ---------- */
+.hero { background: #e0e7ff; padding-block: 2rem; }
+.hero__isi { display: flex; flex-direction: column; gap: 1.5rem; }
+.hero__gambar img { border-radius: 12px; width: 100%; }
+.tombol {
+  display: inline-block;
+  background: var(--utama);
+  color: #fff;
+  padding: .75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  min-height: 44px;            /* target sentuh nyaman */
+}
+
+/* ---------- 6. Grid kartu auto-fit (tanpa media query) ---------- */
+.grid-kartu {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--jarak);
+}
+.kartu {
+  background: var(--kartu);
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.kartu h3 { margin-top: 0; }
+
+/* ---------- 7. Tata letak dengan grid-template-areas ---------- */
+.tata-letak {
+  display: grid;
+  gap: var(--jarak);
+  margin-block: 2rem;
+  grid-template-areas:
+    "utama"
+    "samping"
+    "bawah";
+}
+.tata-letak > * { background: var(--kartu); border-radius: 10px; padding: 1.25rem; border: 1px solid #e5e7eb; }
+.tata-letak__utama   { grid-area: utama; }
+.tata-letak__samping { grid-area: samping; background: #fef3c7; }
+.tata-letak__bawah   { grid-area: bawah; }
+
+/* ---------- 8. Container query ---------- */
+.grid-dosen { display: grid; gap: var(--jarak); }
+.wadah-profil { container-type: inline-size; }
+.profil {
+  display: flex;
+  flex-direction: column;        /* wadah sempit: foto di atas teks */
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  background: var(--kartu);
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.profil img { border-radius: 50%; width: 96px; }
+.profil h3 { margin: 0; }
+.profil p { margin: .25rem 0 0; }
+
+/* Bila WADAH profil ≥ 400px, foto & teks berdampingan */
+@container (min-width: 400px) {
+  .profil { flex-direction: row; text-align: left; }
+}
+
+/* ---------- 9. Footer ---------- */
+.kaki { background: #111827; color: #d1d5db; padding-block: 1.5rem; text-align: center; margin-top: 2rem; }
+
+/* =========================================================
+   TABLET ≥ 600px
+   ========================================================= */
+@media (min-width: 600px) {
+  .kepala__isi { flex-direction: row; justify-content: space-between; align-items: center; }
+
+  .tata-letak {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+      "utama   samping"
+      "bawah   bawah";
+  }
+
+  .grid-dosen { grid-template-columns: 1fr 1fr; }
+}
+
+/* =========================================================
+   DESKTOP ≥ 900px
+   ========================================================= */
+@media (min-width: 900px) {
+  .hero { padding-block: 4rem; }
+  .hero__isi { flex-direction: row; align-items: center; }
+  .hero__teks, .hero__gambar { flex: 1; }
+
+  .tata-letak {
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas:
+      "bawah utama samping";
+  }
+}
+
+/* =========================================================
+   Preferensi pengguna
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* Saat dicetak: sembunyikan navigasi & warna latar */
+@media print {
+  .kepala nav, .tombol, .hero__gambar { display: none; }
+  body, .hero, .kaki { background: #fff; color: #000; }
+}
